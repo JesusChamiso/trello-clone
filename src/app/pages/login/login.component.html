@@ -1,0 +1,73 @@
+<div class="w-screen h-screen bg-gray-50 relative sm:bg-gray-50">
+  <div class="absolute w-full h-full hiddensm:block">
+    <img
+      loading="lazy"
+      class="absolute w-60 lg:w-96 left-0 bottom-0"
+      src="/svg/login-bg-left.svg"
+      alt="bg left"
+    />
+    <img
+      loading="lazy"
+      class="absolute w-60 lg:w-96 right-0 bottom-0"
+      src="/svg/login-bg-rigth.svg"
+      alt="bg right"
+    />
+  </div>
+  <div class="relative w-full sm:w-7/12 md:w-6/12 lg:w-4/12 m-auto">
+    <header class="pt-6 pb-2 flex justify-center">
+      <img
+        loading="lazy"
+        class="w-56"
+        src="/images/logo/logo-gradient-blue-trello.png"
+        alt="trello"
+      />
+    </header>
+    <div class="bg-white rounded shadow sm:shadow-lg py-4 px-6 md:px-10">
+      <div class="mb-4">
+        <h1 class="text-center font-semibold pt-4 pb-8 text-gray-600">
+          Log In To Trello
+        </h1>
+        <form novalidate class="space-y-4">
+          <div class="realtive">
+            <input
+              type="email"
+              class="w-full rounded bg-gray-90 border-2 border-gray-300"
+              placeholder="Enter email"
+            />
+          </div>
+          <div class="realtive">
+            <input
+              type="password"
+              class="w-full rounded bg-gray-90 border-2 border-gray-300"
+              placeholder="Enter password"
+            />
+          </div>
+          <div class="realtive">
+            <app-btn [typeBtn]="'submit'">Log In</app-btn>
+          </div>
+        </form>
+      </div>
+      <hr class="my-4 border-b-1 border-r-gray-300" />
+      <div
+        class="flex justify-center items-center space-x-0 space-y-2 md:space-x-2 md:space-y-0"
+      >
+        <a routerLink="/forgot-password" class="text-blue-600 font-light">
+          Can't log in?</a
+        >
+        <span class="text-gray-500 hidden md:block">·</span>
+        <a routerLink="/register" class="text-blue-600 font-light">
+          Sign up for an account</a
+        >
+      </div>
+    </div>
+    <hr class="mt-10 border-b-1 border-r-gray-300" />
+    <div class="flex justify-center">
+      <img
+        loading="lazy"
+        class="w-32 mt-4"
+        src="/images/logo/logo-atlassian-gray.png"
+        alt=""
+      />
+    </div>
+  </div>
+</div>
