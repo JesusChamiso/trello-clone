@@ -66,16 +66,16 @@
       @for(item of items; track item){
       <cdk-accordion-item #accordionItem="cdkAccordionItem">
         <button
-          class="w-full text-left"
+          class="w-full py-1 px-2 flex justify-between items-center"
           type="button"
           (click)="accordionItem.toggle()"
         >
           {{ item.label }}
         </button>
         <div [style.display]="accordionItem.expanded ? '' : 'none'">
-          <ul>
+          <ul class="ml-2 flex flex-col text-sm text-gray-700">
             @for(subitem of item.items; track subitem){
-            <li>
+            <li class="block py-1 px-3">
               {{ subitem.label }}
             </li>
             }
