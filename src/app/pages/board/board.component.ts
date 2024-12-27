@@ -72,11 +72,17 @@ export class BoardComponent {
     this.columns.push({ title: `New Column`, todos: [] });
   }
 
-  openDialog() {
-    this.dialog.open(TodoDialogComponent, {
+  openDialog(todo: ToDo) {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
       minWidth: '400px',
       maxHeight: '50%',
       autoFocus: false,
+      data: {
+        todo: todo,
+      },
+    });
+    dialogRef.closed.subscribe((output) => {
+      console.log(output);
     });
   }
 }
