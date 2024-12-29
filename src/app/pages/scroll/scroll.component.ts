@@ -3,15 +3,7 @@ import { NavbarComponent } from './../../components/navbar/navbar.component';
 import { Component } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
-interface Product {
-  id: string;
-  title: string;
-  images: string[];
-  price: number;
-  // description: string;
-  // category: string;
-}
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-scroll',
