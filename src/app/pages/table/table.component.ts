@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../../models/product.model';
 import { CdkTableModule } from '@angular/cdk/table';
 import { NgClass } from '@angular/common';
 import { DataSourceProduct } from './data-source';
-import { BtnComponent } from '../../components/btn/btn.component';
+import { BtnComponent } from '../../modules/shared/components/btn/btn.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounce, debounceTime } from 'rxjs';
+import { debounceTime } from 'rxjs';
+import { NavbarComponent } from '../../modules/layout/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-table',

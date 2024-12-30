@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { NavbarComponent } from './../../components/navbar/navbar.component';
 import { Component } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Product } from '../../models/product.model';
+import { NavbarComponent } from '../../modules/layout/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-scroll',

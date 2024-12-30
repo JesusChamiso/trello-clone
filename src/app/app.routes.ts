@@ -1,29 +1,24 @@
-import { Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { BoardsComponent } from './pages/boards/boards.component';
-import { BoardComponent } from './pages/board/board.component';
+import { BoardsComponent } from './modules/boards/pages/boards/boards.component';
+import { BoardComponent } from './modules/boards/pages/board/board.component';
 import { ScrollComponent } from './pages/scroll/scroll.component';
 import { TableComponent } from './pages/table/table.component';
+import { authRoutes } from './modules/auth/auth-routing.module';
+import { boardsRoute } from './modules/boards/boards-routing.module';
 
 export const routes: Routes = [
+  // {path: 'loginv1',component: LoginComponent,},{path: 'boards',component: BoardsComponent,},{path: 'board',component: BoardComponent,},{path: 'scroll',component: ScrollComponent,},{path: 'table',component: TableComponent,},
   {
-    path: 'login',
-    component: LoginComponent,
+    path: 'auth',
+    children: authRoutes,
   },
   {
-    path: 'boards',
-    component: BoardsComponent,
+    path: 'app',
+    children: boardsRoute,
   },
   {
-    path: 'board',
-    component: BoardComponent,
-  },
-  {
-    path: 'scroll',
-    component: ScrollComponent,
-  },
-  {
-    path: 'table',
-    component: TableComponent,
+    path: '**',
+    redirectTo: 'auth/login',
   },
 ];
