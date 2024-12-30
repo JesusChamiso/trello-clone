@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faEye, faEyeSlash, faPen } from '@fortawesome/free-solid-svg-icons';
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
@@ -17,11 +17,18 @@ export class LoginFormComponent {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
     this.form = this.formBuilder.group({
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+    this.route.queryParamMap.subscribe((params) => {
+      const email = params.get('email');
+      if (email) {
+        this.form.controls.email.setValue(email);
+      }
     });
   }
 
@@ -40,11 +47,11 @@ export class LoginFormComponent {
       this.authService.login(email, password).subscribe({
         next: () => {
           this.status = 'success';
-          this.router.navigate(['/boards']);
+          this.router.navigate(['/app/boards']);
         },
         error: (e) => {
           this.status = 'failed';
-          console.error('Error de Autenticacion: ', e);
+          // console.error('Error de Autenticacion: ', e.error.message);
         },
       });
     } else {

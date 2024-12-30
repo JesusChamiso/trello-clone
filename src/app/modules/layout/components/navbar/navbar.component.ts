@@ -8,10 +8,11 @@ import { Component } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [BtnComponent, OverlayModule, FontAwesomeModule],
+  imports: [BtnComponent, OverlayModule, FontAwesomeModule, RouterLink],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {

@@ -1,15 +1,17 @@
-import { Routes, RouterModule } from '@angular/router';
-import { authRoutes } from './modules/auth/auth-routing.module';
-import { boardsRoute } from './modules/boards/boards-routing.module';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
     path: 'auth',
-    children: authRoutes,
+    loadChildren: () =>
+      import('./modules/auth/auth-routing.module').then((m) => m.authRoutes),
   },
   {
     path: 'app',
-    children: boardsRoute,
+    loadChildren: () =>
+      import('./modules/layout/layout-routing.module').then(
+        (m) => m.layoutRoutes
+      ),
   },
   {
     path: '**',

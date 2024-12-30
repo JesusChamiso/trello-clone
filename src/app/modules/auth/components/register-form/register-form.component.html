@@ -1,3 +1,44 @@
+@if(!showRegisterForm){
+<h1 class="text-center font-bold py-2 text-gray-700">Enter your data</h1>
+<form
+  [formGroup]="formUserValidator"
+  novalidate
+  class="space-y-4"
+  (ngSubmit)="validateUser()"
+>
+  <div>
+    <div class="relative">
+      <input
+        formControlName="emailUser"
+        placeholder="Enter email"
+        type="email"
+        name="email"
+        class="w-full rounded bg-gray-100 border-gray-300 border-2"
+      />
+    </div>
+    @if(formUserValidator.controls.emailUser.touched &&
+    formUserValidator.controls.emailUser.invalid){
+    <div>
+      @if(formUserValidator.controls.emailUser.hasError('required')){
+      <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+        This field is mandatory
+      </p>
+      } @if(formUserValidator.controls.emailUser.hasError('email')){
+      <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+        This field should be a email
+      </p>
+      }
+    </div>
+    }
+  </div>
+
+  <div>
+    <app-btn typeBtn="submit" color="success" [loading]="status === 'loading'"
+      >Continue</app-btn
+    >
+  </div>
+</form>
+}@else{
 <h1 class="text-center font-bold py-2 text-gray-700">Enter your data</h1>
 <form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="register()">
   <div>
@@ -69,7 +110,7 @@
       </p>
       } @if(form.controls.password.hasError('minlength')){
       <p class="font-medium text-red-500 text-xs mt-1 ml-1">
-        This field should be greater than 6 characters
+        This field should be greater than 8 characters
       </p>
       }
     </div>
@@ -114,3 +155,4 @@
     >
   </div>
 </form>
+}
