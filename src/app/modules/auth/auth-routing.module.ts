@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from '../../pages/login/login.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { RecoveryComponent } from './pages/recovery/recovery.component';
+import { LoginComponent } from './pages/login/login.component';
 
 export const authRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'auth/login',
     pathMatch: 'full',
   },
   {
