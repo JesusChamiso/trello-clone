@@ -8,7 +8,8 @@ import { Component } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,4 +23,11 @@ export class NavbarComponent {
   faAngleDown = faAngleDown;
   isOpenOverlayAvatar = false;
   isOpenOverlayBoards = false;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
 }

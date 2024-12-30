@@ -121,7 +121,13 @@
     </ul>
     <ul class="py-1">
       <li>
-        <a class="block py-2 px-4 text-sm text-gray-700">Log out</a>
+        <a (click)="logout()" class="block py-2 px-4 text-sm text-gray-700">
+          <button
+            class="block py-2 px-4 text-sm text-gray-700 hover:bg-danger-500 hover:text-slate-50 rounded-md border shadow-sm"
+          >
+            Log out
+          </button>
+        </a>
       </li>
     </ul>
   </div>
