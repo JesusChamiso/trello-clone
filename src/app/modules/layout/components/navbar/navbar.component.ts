@@ -11,27 +11,29 @@ import { BtnComponent } from '../../../shared/components/btn/btn.component';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../models/users.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [BtnComponent, OverlayModule, FontAwesomeModule, RouterLink],
+  imports: [
+    BtnComponent,
+    OverlayModule,
+    FontAwesomeModule,
+    RouterLink,
+    CommonModule,
+  ],
   templateUrl: './navbar.component.html',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   faBell = faBell;
   faInfoCircle = faInfoCircle;
   faClose = faClose;
   faAngleDown = faAngleDown;
   isOpenOverlayAvatar = false;
   isOpenOverlayBoards = false;
-
-  user: User | null = null;
-
-  constructor(private authService: AuthService, private router: Router) {}
-  ngOnInit() {
-    this.authService.getProfile().subscribe((user) => {
-      this.user = user;
-    });
+  user$;
+  constructor(private authService: AuthService, private router: Router) {
+    this.user$ = this.authService.user$;
   }
 
   logout() {

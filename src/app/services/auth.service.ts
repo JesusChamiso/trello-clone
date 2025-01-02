@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environments';
-import { switchMap, tap } from 'rxjs';
+import { BehaviorSubject, switchMap, tap } from 'rxjs';
 import { TokenService } from './token.service';
 import { ResponseLogin } from '../models/auth.model';
 import { User } from '../models/users.model';
@@ -11,7 +11,15 @@ import { User } from '../models/users.model';
 })
 export class AuthService {
   apiUrl = environment.API_URL;
+  user$ = new BehaviorSubject<User | null>(null);
+
   constructor(private http: HttpClient, private tokenService: TokenService) {}
+  // En lugar de suscribirme a la respuesta del método getProfile que utiliza el metodo tap para actualizar el valor del BehaviorSubject user$,
+  // puedo retornar el observable y suscribirme a él en el componente que lo necesite. esto quita la raeactividad del servicio
+  // y la pone en el componente
+  getDataUser() {
+    return this.user$.getValue();
+  }
 
   login(email: string, password: string) {
     return this.http
@@ -70,10 +78,16 @@ export class AuthService {
 
   getProfile() {
     const token = this.tokenService.getToken();
-    return this.http.get<User>(`${this.apiUrl}auth/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    return this.http
+      .get<User>(`${this.apiUrl}auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .pipe(
+        tap((user) => {
+          this.user$.next(user);
+        })
+      );
   }
 }
