@@ -12,6 +12,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
 import { User } from '../../../../models/users.model';
 import { CommonModule } from '@angular/common';
+import { TokenService } from '../../../../services/token.service';
 
 @Component({
   selector: 'app-navbar',
@@ -32,12 +33,20 @@ export class NavbarComponent {
   isOpenOverlayAvatar = false;
   isOpenOverlayBoards = false;
   user$;
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private tokenService: TokenService
+  ) {
     this.user$ = this.authService.user$;
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/auth/login']);
+  }
+
+  isValidateToken() {
+    console.log('isValidateToken:', this.tokenService.isValidToken());
   }
 }

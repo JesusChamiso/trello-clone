@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
+import { authGuard } from '../../guards/auth.guard';
 
 export const layoutRoutes: Routes = [
   {
@@ -13,6 +14,7 @@ export const layoutRoutes: Routes = [
       },
       {
         path: 'boards',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('../boards/pages/boards/boards.component').then(
             (m) => m.BoardsComponent
@@ -20,6 +22,7 @@ export const layoutRoutes: Routes = [
       },
       {
         path: 'profile',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('../profile/pages/profile/profile.component').then(
             (m) => m.ProfileComponent
@@ -27,6 +30,7 @@ export const layoutRoutes: Routes = [
       },
       {
         path: 'users',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('../users/pages/users-table/users-table.component').then(
             (m) => m.UsersTableComponent

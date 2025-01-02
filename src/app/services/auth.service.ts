@@ -31,8 +31,10 @@ export class AuthService {
       .pipe(
         tap((response) => {
           const token = response.access_token;
+          const refresh_token = response.refresh_token;
           if (token) {
             this.tokenService.saveToken(token);
+            this.tokenService.saveRefreshToken(refresh_token);
             // console.log('Token:', token);
           } else {
             console.log('Token no recibido');
@@ -85,6 +87,26 @@ export class AuthService {
       .pipe(
         tap((user) => {
           this.user$.next(user);
+        })
+      );
+  }
+
+  refreshToken(refreshToken: string) {
+    return this.http
+      .post<ResponseLogin>(`${this.apiUrl}auth/refresh-token`, {
+        refreshToken,
+      })
+      .pipe(
+        tap((response) => {
+          const token = response.access_token;
+          const refresh_token = response.refresh_token;
+          if (token) {
+            this.tokenService.saveToken(token);
+            this.tokenService.saveRefreshToken(refresh_token);
+            // console.log('Token:', token);
+          } else {
+            console.log('Token no recibido');
+          }
         })
       );
   }
