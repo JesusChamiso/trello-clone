@@ -23,7 +23,7 @@ export class AuthService {
           const token = response.access_token;
           if (token) {
             this.tokenService.saveToken(token);
-            console.log('Token:', token);
+            // console.log('Token:', token);
           } else {
             console.log('Token no recibido');
           }
