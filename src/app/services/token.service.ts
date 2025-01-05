@@ -20,7 +20,7 @@ export class TokenService {
 
   removeToken() {
     // localStorage.removeItem('token');
-    removeCookie('token');
+    removeCookie('refresh-token');
   }
 
   isValidToken() {
