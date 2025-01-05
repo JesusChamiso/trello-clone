@@ -1,0 +1,76 @@
+export type Colors =
+  | 'green'
+  | 'yellow'
+  | 'red'
+  | 'violet'
+  | 'sky'
+  | 'gray'
+  | 'success'
+  | 'primary'
+  | 'danger'
+  | 'light';
+
+export type ObjColors = Record<string, Record<string, boolean>>;
+
+export const COLORS: ObjColors = {
+  success: {
+    'bg-success-700': true,
+    'hover:bg-success-800': true,
+    'focus:ring-success-300': true,
+    'text-white': true,
+  },
+  primary: {
+    'bg-primary-700': true,
+    'hover:bg-primary-800': true,
+    'focus:ring-primary-30': true,
+    'text-white': true,
+  },
+  danger: {
+    'bg-danger-700': true,
+    'hover:bg-danger-800': true,
+    'focus:ring-danger-300': true,
+    'text-white': true,
+  },
+  light: {
+    'bg-gray-300': true,
+    'hover:bg-gray-400': true,
+    'focus:ring-gray-50': true,
+    'text-gray-700': true,
+  },
+  sky: {
+    'bg-sky-300': true,
+    'hover:bg-sky-400': true,
+    'focus:ring-sky-50': true,
+    'text-white': true,
+  },
+  yellow: {
+    'bg-yellow-700': true,
+    'hover:bg-yellow-800': true,
+    'focus:ring-yellow-300': true,
+    'text-white': true,
+  },
+  red: {
+    'bg-red-700': true,
+    'hover:bg-red-800': true,
+    'focus:ring-red-300': true,
+    'text-white': true,
+  },
+  green: {
+    'bg-green-700': true,
+    'hover:bg-green-800': true,
+    'focus:ring-green-300': true,
+    'text-white': true,
+  },
+  violet: {
+    'bg-violet-700': true,
+    'hover:bg-violet-800': true,
+    'focus:ring-violet-300': true,
+    'text-white': true,
+  },
+  gray: {
+    'bg-gray-700': true,
+    'hover:bg-gray-800': true,
+    'focus:ring-gray-300': true,
+    'text-white': true,
+  },
+};

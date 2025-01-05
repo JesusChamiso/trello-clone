@@ -1,8 +1,9 @@
+import { Colors } from './colors.model';
 import { User } from './users.model';
 
 export interface Board {
   id: string;
   title: string;
-  backgroundColor: 'green' | 'yellow' | 'red' | 'violet' | 'sky' | 'gray';
+  backgroundColor: Colors;
   members: User[];
 }
