@@ -4,6 +4,6 @@ export interface Card {
   id: number;
   title: string;
   description: string;
-  position: string;
+  position: number;
   list: List;
 }

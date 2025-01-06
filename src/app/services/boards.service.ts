@@ -9,6 +9,7 @@ import { Card } from '../models/card.model';
   providedIn: 'root',
 })
 export class BoardsService {
+  bufferSpace = 65535;
   apiUrl = environment.API_URL;
   constructor(private http: HttpClient) {}
   getBoard(id: Board['id']) {
@@ -18,22 +19,26 @@ export class BoardsService {
   }
 
   getPosition(cards: Card[], currentIndex: number) {
+    const lastIndex = cards.length - 1;
     // Card Nuevo en una lista
     if (cards.length === 1) {
-      return 'New Card';
+      return this.bufferSpace;
     }
     // Card en la primera posición
     if (cards.length > 1 && currentIndex === 0) {
-      return 'Top Card';
+      const onTopPosition = cards[1].position;
+      return onTopPosition / 2;
     }
     // Card en la mitad de la lista
-    const lastIndex = cards.length - 1;
     if (cards.length > 2 && currentIndex > 0 && currentIndex < lastIndex) {
-      return 'Middle Card';
+      const prevPosition = cards[currentIndex - 1].position;
+      const nextPosition = cards[currentIndex + 1].position;
+      return (prevPosition + nextPosition) / 2;
     }
     // Card en la última posición
     if (cards.length > 1 && currentIndex === lastIndex) {
-      return 'Bottom Card';
+      const onBottomPosition = cards[lastIndex - 1].position;
+      return onBottomPosition + this.bufferSpace;
     }
 
     return 0;
