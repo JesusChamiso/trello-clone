@@ -7,7 +7,6 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Column, ToDo } from '../../../../models/todo.model';
 import { DialogModule, Dialog } from '@angular/cdk/dialog';
 import { TodoDialogComponent } from '../../components/todo-dialog/todo-dialog.component';
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
@@ -15,10 +14,26 @@ import { ActivatedRoute } from '@angular/router';
 import { BoardsService } from '../../../../services/boards.service';
 import { Board } from '../../../../models/boards.model';
 import { Card } from '../../../../models/card.model';
+import { List } from '../../../../models/list.model';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-board',
-  imports: [DragDropModule, CdkDrag, DialogModule, BtnComponent],
+  imports: [
+    DragDropModule,
+    CdkDrag,
+    DialogModule,
+    BtnComponent,
+    FaIconComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './board.component.html',
   styles: [
     `
@@ -35,12 +50,20 @@ import { Card } from '../../../../models/card.model';
 })
 export class BoardComponent implements OnInit {
   board: Board | null = null;
+  faClose = faClose;
+  inputCard;
   constructor(
     private dialog: Dialog,
     private route: ActivatedRoute,
     private boardService: BoardsService,
-    private cardService: CardsService
-  ) {}
+    private cardService: CardsService,
+    private formBuilder: FormBuilder
+  ) {
+    this.inputCard = new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    });
+  }
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -105,5 +128,44 @@ export class BoardComponent implements OnInit {
       .subscribe((cardUpdate) => {
         console.log(cardUpdate);
       });
+  }
+
+  openFormCard(list: List) {
+    if (this.board?.lists) {
+      this.board.lists = this.board.lists.map((iteratorList) => {
+        if (iteratorList.id === list.id) {
+          return {
+            ...iteratorList,
+            showCardForm: true,
+          };
+        }
+        return {
+          ...iteratorList,
+          showCardForm: false,
+        };
+      });
+    }
+  }
+
+  closeFormCard(list: List) {
+    list.showCardForm = false;
+  }
+
+  createCard(list: List) {
+    const title = this.inputCard.value;
+    if (this.board) {
+      this.cardService
+        .create({
+          title,
+          listId: list.id,
+          boardId: this.board.id,
+          position: this.boardService.getPositionNewCard(list.cards),
+        })
+        .subscribe((card) => {
+          list.cards.push(card);
+          this.inputCard.setValue('');
+          this.closeFormCard(list);
+        });
+    }
   }
 }

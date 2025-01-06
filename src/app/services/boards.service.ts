@@ -54,4 +54,13 @@ export class BoardsService {
       { context: checkToken() }
     );
   }
+
+  getPositionNewCard(cards: Card[]) {
+    const lastIndex = cards.length - 1;
+    if (cards.length === 0) {
+      return this.bufferSpace;
+    }
+    const onBottomPosition = cards[lastIndex].position;
+    return onBottomPosition + this.bufferSpace;
+  }
 }
