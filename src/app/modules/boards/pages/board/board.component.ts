@@ -1,3 +1,4 @@
+import { CardsService } from './../../../../services/cards.service';
 import { Component, OnInit } from '@angular/core';
 import {
   CdkDrag,
@@ -37,7 +38,8 @@ export class BoardComponent implements OnInit {
   constructor(
     private dialog: Dialog,
     private route: ActivatedRoute,
-    private boardService: BoardsService
+    private boardService: BoardsService,
+    private cardService: CardsService
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -63,11 +65,13 @@ export class BoardComponent implements OnInit {
         event.currentIndex
       );
     }
-    const rta = this.boardService.getPosition(
+    const position = this.boardService.getPosition(
       event.container.data,
       event.currentIndex
     );
-    console.log(rta);
+    const card = event.container.data[event.currentIndex];
+    const listId = event.container.id;
+    this.updateCard(card, position, listId);
   }
 
   addColumn() {
@@ -93,5 +97,13 @@ export class BoardComponent implements OnInit {
     this.boardService.getBoard(id).subscribe((board) => {
       this.board = board;
     });
+  }
+
+  private updateCard(card: Card, position: number, listId: number | string) {
+    this.cardService
+      .update(card.id, { position, listId })
+      .subscribe((cardUpdate) => {
+        console.log(cardUpdate);
+      });
   }
 }
