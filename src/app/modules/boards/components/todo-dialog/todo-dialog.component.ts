@@ -1,5 +1,4 @@
 import { BtnComponent } from './../../../shared/components/btn/btn.component';
-import { ToDo } from './../../../../models/todo.model';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -12,9 +11,10 @@ import {
   faCheckToSlot,
   faBars,
 } from '@fortawesome/free-solid-svg-icons';
+import { Card } from '../../../../models/card.model';
 
 interface InputData {
-  todo: ToDo;
+  card: Card;
 }
 interface OutputData {
   rta: boolean;
@@ -33,13 +33,13 @@ export class TodoDialogComponent {
   faClose = faClose;
   faCheckToSlot = faCheckToSlot;
   faBars = faBars;
-  todo: ToDo;
+  card: Card;
 
   constructor(
     private dialogref: DialogRef<OutputData>,
     @Inject(DIALOG_DATA) data: InputData
   ) {
-    this.todo = data.todo;
+    this.card = data.card;
   }
   closeDialog() {
     this.dialogref.close({

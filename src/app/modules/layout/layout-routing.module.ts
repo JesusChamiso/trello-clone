@@ -15,26 +15,22 @@ export const layoutRoutes: Routes = [
       {
         path: 'boards',
         canActivate: [authGuard],
-        loadComponent: () =>
-          import('../boards/pages/boards/boards.component').then(
-            (m) => m.BoardsComponent
-          ),
+        loadChildren: () =>
+          import('../boards/boards-routing.module').then((m) => m.boardsRoute),
       },
       {
         path: 'profile',
         canActivate: [authGuard],
-        loadComponent: () =>
-          import('../profile/pages/profile/profile.component').then(
-            (m) => m.ProfileComponent
+        loadChildren: () =>
+          import('../profile/profile-routing.module').then(
+            (m) => m.profileRoute
           ),
       },
       {
         path: 'users',
         canActivate: [authGuard],
-        loadComponent: () =>
-          import('../users/pages/users-table/users-table.component').then(
-            (m) => m.UsersTableComponent
-          ),
+        loadChildren: () =>
+          import('../users/users-routing.module').then((m) => m.UserRoutes),
       },
     ],
   },
