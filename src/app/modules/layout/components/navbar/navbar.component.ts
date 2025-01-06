@@ -10,9 +10,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
-import { User } from '../../../../models/users.model';
 import { CommonModule } from '@angular/common';
 import { TokenService } from '../../../../services/token.service';
+import { BoardFormComponent } from '../board-form/board-form.component';
 
 @Component({
   selector: 'app-navbar',
@@ -22,6 +22,7 @@ import { TokenService } from '../../../../services/token.service';
     FontAwesomeModule,
     RouterLink,
     CommonModule,
+    BoardFormComponent,
   ],
   templateUrl: './navbar.component.html',
 })
@@ -32,6 +33,7 @@ export class NavbarComponent {
   faAngleDown = faAngleDown;
   isOpenOverlayAvatar = false;
   isOpenOverlayBoards = false;
+  isOpenOverlayCreateBoard = false;
   user$;
   constructor(
     private authService: AuthService,
@@ -48,5 +50,9 @@ export class NavbarComponent {
 
   isValidateToken() {
     console.log('isValidateToken:', this.tokenService.isValidToken());
+  }
+
+  close(event: boolean) {
+    this.isOpenOverlayCreateBoard = event;
   }
 }

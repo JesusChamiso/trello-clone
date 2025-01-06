@@ -43,4 +43,15 @@ export class BoardsService {
 
     return 0;
   }
+
+  createBoard(
+    title: Board['title'],
+    backgroundColor: Board['backgroundColor']
+  ) {
+    return this.http.post<Board>(
+      `${this.apiUrl}boards`,
+      { title, backgroundColor },
+      { context: checkToken() }
+    );
+  }
 }
