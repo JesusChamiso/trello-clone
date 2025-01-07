@@ -1,3 +1,4 @@
+import { BoardsService } from './../../../../services/boards.service';
 import { CardsService } from './../../../../services/cards.service';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -11,10 +12,9 @@ import { DialogModule, Dialog } from '@angular/cdk/dialog';
 import { TodoDialogComponent } from '../../components/todo-dialog/todo-dialog.component';
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
 import { ActivatedRoute } from '@angular/router';
-import { BoardsService } from '../../../../services/boards.service';
 import { Board } from '../../../../models/boards.model';
-import { Card } from '../../../../models/card.model';
-import { List } from '../../../../models/list.model';
+import { Card, CreateCardDto } from '../../../../models/card.model';
+import { CreateListDto, List } from '../../../../models/list.model';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -23,6 +23,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ListsService } from '../../../../services/lists.service';
 
 @Component({
   selector: 'app-board',
@@ -51,19 +52,25 @@ import {
 export class BoardComponent implements OnInit {
   board: Board | null = null;
   faClose = faClose;
-  inputCard;
+  showListForm = false;
+
+  inputCard = new FormControl<string>('', {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+
+  inputList = new FormControl<string>('', {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
   constructor(
     private dialog: Dialog,
     private route: ActivatedRoute,
     private boardService: BoardsService,
     private cardService: CardsService,
-    private formBuilder: FormBuilder
-  ) {
-    this.inputCard = new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    });
-  }
+    private formBuilder: FormBuilder,
+    private listService: ListsService
+  ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -97,9 +104,26 @@ export class BoardComponent implements OnInit {
     this.updateCard(card, position, listId);
   }
 
-  addColumn() {
-    // this.columns.push({ title: `New Column`, todos: [] });
-    return true;
+  addList() {
+    const title = this.inputList.value;
+    if (this.board) {
+      const newPosition = this.boardService.getPositionNewItem(
+        this.board.lists
+      );
+      const newListDto: CreateListDto = {
+        title,
+        boardId: this.board.id,
+        position: newPosition,
+      };
+
+      this.listService.create(newListDto).subscribe((createdList): void => {
+        const newList: List = { ...createdList, cards: [] };
+
+        this.board?.lists.push({ ...newList });
+        this.showListForm = false;
+        this.inputList.setValue('');
+      });
+    }
   }
 
   openDialog(card: Card) {
@@ -126,7 +150,7 @@ export class BoardComponent implements OnInit {
     this.cardService
       .update(card.id, { position, listId })
       .subscribe((cardUpdate) => {
-        console.log(cardUpdate);
+        // console.log(cardUpdate);
       });
   }
 
@@ -159,7 +183,7 @@ export class BoardComponent implements OnInit {
           title,
           listId: list.id,
           boardId: this.board.id,
-          position: this.boardService.getPositionNewCard(list.cards),
+          position: this.boardService.getPositionNewItem(list.cards),
         })
         .subscribe((card) => {
           list.cards.push(card);
