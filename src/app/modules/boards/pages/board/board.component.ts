@@ -13,7 +13,7 @@ import { TodoDialogComponent } from '../../components/todo-dialog/todo-dialog.co
 import { BtnComponent } from '../../../shared/components/btn/btn.component';
 import { ActivatedRoute } from '@angular/router';
 import { Board } from '../../../../models/boards.model';
-import { Card, CreateCardDto } from '../../../../models/card.model';
+import { Card } from '../../../../models/card.model';
 import { CreateListDto, List } from '../../../../models/list.model';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +24,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ListsService } from '../../../../services/lists.service';
+import { BACKGROUNDS } from '../../../../models/colors.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-board',
@@ -34,6 +36,7 @@ import { ListsService } from '../../../../services/lists.service';
     BtnComponent,
     FaIconComponent,
     ReactiveFormsModule,
+    CommonModule,
   ],
   templateUrl: './board.component.html',
   styles: [
@@ -53,6 +56,7 @@ export class BoardComponent implements OnInit {
   board: Board | null = null;
   faClose = faClose;
   showListForm = false;
+  colorBackgrounds = BACKGROUNDS;
 
   inputCard = new FormControl<string>('', {
     nonNullable: true,
@@ -71,6 +75,7 @@ export class BoardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private listService: ListsService
   ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -78,6 +83,10 @@ export class BoardComponent implements OnInit {
         this.getBoard(id);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.boardService.setBackgroundColor('primary');
   }
 
   drop(event: CdkDragDrop<Card[]>) {
@@ -143,6 +152,7 @@ export class BoardComponent implements OnInit {
   private getBoard(id: string) {
     this.boardService.getBoard(id).subscribe((board) => {
       this.board = board;
+      this.boardService.setBackgroundColor(this.board.backgroundColor);
     });
   }
 
@@ -191,5 +201,13 @@ export class BoardComponent implements OnInit {
           this.closeFormCard(list);
         });
     }
+  }
+
+  get colors() {
+    if (this.board) {
+      const classes = this.colorBackgrounds[this.board.backgroundColor];
+      return classes ? classes : {};
+    }
+    return {};
   }
 }

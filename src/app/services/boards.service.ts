@@ -5,6 +5,8 @@ import { environment } from '../../environments/environments';
 import { checkToken } from '../interceptors/token.interceptor';
 import { Card } from '../models/card.model';
 import { List } from '../models/list.model';
+import { BehaviorSubject, tap } from 'rxjs';
+import { Colors } from '../models/colors.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +14,21 @@ import { List } from '../models/list.model';
 export class BoardsService {
   bufferSpace = 65535;
   apiUrl = environment.API_URL;
+
+  backgorundColor$ = new BehaviorSubject<Colors>('primary');
+
   constructor(private http: HttpClient) {}
+
   getBoard(id: Board['id']) {
     return this.http.get<Board>(`${this.apiUrl}boards/${id}`, {
       context: checkToken(),
     });
+    // aqui tambien sirve esta forma para cambiar el color de fondo de navbar
+    // .pipe(
+    //   tap((board) => {
+    //     this.setBackgroundColor(board.backgroundColor);
+    //   })
+    // );
   }
 
   getPosition(cards: Card[], currentIndex: number) {
@@ -63,5 +75,9 @@ export class BoardsService {
     }
     const onBottomPosition = element[lastIndex].position;
     return onBottomPosition + this.bufferSpace;
+  }
+
+  setBackgroundColor(color: Colors) {
+    this.backgorundColor$.next(color);
   }
 }
